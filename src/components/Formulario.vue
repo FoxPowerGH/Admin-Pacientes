@@ -1,6 +1,12 @@
 <script setup>
     import { reactive } from 'vue'
+    import Alerta from './Alerta.vue';
 
+    const alerta = reactive( {
+        tipo:'',
+        mensaje:''
+
+    })
 
     const paciente = reactive({
         nombre: '',
@@ -12,8 +18,9 @@
 
     const validar = () => {
         
-        if([Object.values(paciente)].includes('')) {
-            console.log('Vacios')
+        if(Object.values(paciente).includes('')) {
+            alerta.mensaje = 'Todos los campos son obligatorios'
+            alerta.tipo = 'error'
             return
         }
         
@@ -30,6 +37,11 @@
             Añade Pacientes y 
             <span class="text-indigo-600 font-bold">Admininstralos</span>
         </p>
+
+        <Alerta
+            v-if="alerta.mensaje"
+            :alerta="alerta"
+        />
 
         <form
             class="bg-white shadow-md py-10 px-5 mb-10"
