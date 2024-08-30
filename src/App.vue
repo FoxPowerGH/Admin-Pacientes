@@ -17,16 +17,31 @@
     })
 
     const guardarPaciente = () => {
-      pacientes.value.push({
-        ...paciente,id: uid()})
+      if(paciente.id) {
 
+          const {id} = paciente
+          const i = pacientes.value.findIndex((pacienteState) => pacienteState === id)
+          pacientes.value[i] = {...paciente}
+          console.log('Edicion', id, i)
+      } else {
+          console.log('Registro Nuevo')
+          pacientes.value.push({
+          ...paciente,id: uid()})
+      }
+      
       //Reiniciar el objeto
         paciente.nombre = ''
         paciente.propietario = ''
         paciente.email = ''
         paciente.alta = ''
         paciente.sintomas = ''
-        paciente.id = ''
+        paciente.id = null
+    }
+
+    const actualizarPaciente = (id) => {
+      console.log('actualizando...', id)     
+      const pacienteEditar = pacientes.value.filter( paciente => paciente.id === id)[0]
+      Object.assign(paciente, pacienteEditar)
     }
 
 </script>
@@ -43,6 +58,7 @@
           v-model:alta="paciente.alta"
           v-model:sintomas="paciente.sintomas"
           @guardar-paciente="guardarPaciente"
+          :id="paciente.id"
           />
 
           <div class="md:w-1/2 md:h-screen overflow-y-scroll">
@@ -56,6 +72,7 @@
                 <Paciente
                     v-for="paciente in pacientes"
                       :paciente="paciente"
+                      @actualizar-paciente="actualizarPaciente"
                 />
             </div>
             <p v-else class="mt-20 text-2xl text-center">No Hay Pacientes</p>
