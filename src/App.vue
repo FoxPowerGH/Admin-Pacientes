@@ -30,12 +30,14 @@
       }
       
       //Reiniciar el objeto
-        paciente.nombre = ''
-        paciente.propietario = ''
-        paciente.email = ''
-        paciente.alta = ''
-        paciente.sintomas = ''
-        paciente.id = null
+      Object.assign( paciente, {
+        nombre: '',
+        propietario:  '',
+        email:  '',
+        alta:  '',
+        sintomas: '',
+        id: null
+      })
     }
 
     const actualizarPaciente = (id) => {
